@@ -116,6 +116,7 @@ Muse 是聊天入口和定时器，不是特斯拉 App 的替代品：
 
 - [每日早报](skills/daily-morning-briefing/SKILL.md) - 英文版
 - [每日早报](skills/daily-morning-briefing/SKILL.zh-CN.md) - 中文版
+
 欢迎后续投稿，只要是通用的、不含个人数据、默认可选且安全的。
 
 ## 作者
