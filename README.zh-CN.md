@@ -108,6 +108,16 @@ Muse 是聊天入口和定时器，不是特斯拉 App 的替代品：
 - 不包含、也绝不能包含任何私钥、client secret、token、授权 code、车架号、个人域名。
 - 不保证特斯拉一定会批准、保留或继续支持任何开发者应用。
 
+## 可选技能合集
+
+`skills/`文件夹是一个可选的技能合集，不是核心 MuseDrive 方法所必需的。
+
+目前只包含一个技能：
+
+- [每日早报](skills/daily-morning-briefing/SKILL.md) - 英文版
+- [每日早报](skills/daily-morning-briefing/SKILL.zh-CN.md) - 中文版
+欢迎后续投稿，只要是通用的、不含个人数据、默认可选且安全的。
+
 ## 作者
 
 - 抖音：神探夏洛克𝕏（抖音号：zayshzh）
