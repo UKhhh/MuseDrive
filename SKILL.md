@@ -156,5 +156,5 @@ This step is separate from creating an app, and it is the part most guides skip.
 
 ## Costs
 
-- Fleet API is pay-per-use (data, wakes, commands, and streaming signals are priced separately). Official documentation describes a monthly credit per developer account, but the China portal's billing page could not be verified, so do not promise a free allowance for China. No payment method should be added without the user's explicit approval.
-- GitHub Pages and public repos used for the public key and callback page are free. This integration itself does not require a third-party subscription such as Tessie.
+- Fleet API costs are described in the README Costs section: Tesla's China subscription page currently lists a Discovery tier at $0 / vehicle / month with daily limits (data 200, commands 50, wakes 15, charging commands 5), but calls it temporary with a stale 2024 replacement note, so do not promise a free allowance for China. Tesla's global billing page separately describes pay-per-use pricing and a $10 / month individual-developer discount, which is not shown as applying to China accounts. No payment method should be added without the user's explicit approval.
+- GitHub Pages and public repos used for the public key and callback page are free. This integration itself does not require a third-party subscription.
