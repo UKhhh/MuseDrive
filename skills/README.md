@@ -9,6 +9,15 @@ and signed commands without any skill in this folder.
 它们**不是**核心 MuseDrive 方法的必需部分。不用这里的任何 skill，
 照样可以用根目录的 `SKILL.md` 查车、控车。
 
+## Skills inventory / 技能清单
+
+As of 2026-11-03, this library contains one skill only:
+
+截至 2026-11-03，本技能库仅收录 1 个技能：
+
+- **2026-11-02 — Daily Morning Briefing / 每日早报** — `skills/daily-morning-briefing/SKILL.md` (English) and `skills/daily-morning-briefing/SKILL.zh-CN.md` (Chinese). One short, warm, first-person morning message with today's weather, read-only vehicle status, last night's sleep and yesterday's activity if synced, and personalized reminders, plus at most one urgent news item. The vehicle part requires your own MuseDrive setup; without a car, the same skill can run weather plus health only.
+- **2026-11-02 — 每日早报 / Daily Morning Briefing** — `skills/daily-morning-briefing/SKILL.md`（英文版）、`skills/daily-morning-briefing/SKILL.zh-CN.md`（中文版）。一份短的、温暖的、第一人称的早报，包含当天天气、只读的车辆状态、昨晚睡眠和昨天活动（如果已同步）、个性化提醒，紧急新闻最多一条。车辆部分需要你自己的 MuseDrive 搭建；没有车的话，同一个技能也可以只跑天气加健康。
+
 ## How to use / 怎么用
 
 1. Pick a skill folder below, read its `SKILL.md` (and
