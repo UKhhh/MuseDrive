@@ -129,6 +129,7 @@ It currently includes exactly one skill:
 
 - [Daily Morning Briefing](skills/daily-morning-briefing/SKILL.md) - English version
 - [Daily Morning Briefing](skills/daily-morning-briefing/SKILL.zh-CN.md) - Chinese version
+
 Later contributions are welcome if they are generic, contain no personal data, and are optional and safe by default.
 
 ## Author / 作者
