@@ -12,7 +12,7 @@ A working method for connecting your own Tesla to an AI assistant through Tesla'
 **This project is provided "as is", without warranty of any kind, and the author is not liable for any claim, damage, or other liability arising from its use. By using it, you accept all risks below.**
 
 1. **Unofficial, personal, non-commercial only.** This is for your own vehicle, with your own Tesla account, for personal use only. Do not use it on a vehicle you do not own or have not been explicitly authorized to control. Do not offer it as a service to third parties, do not collect other people's tokens, keys, or vehicle data, and do not use it for a commercial fleet.
-2. **Tesla's terms override this project.** Tesla, its logos, and its API names belong to Tesla. Follow Tesla's current Developer Terms, Fleet API documentation, and acceptable-use rules. Tesla may change, deprecate, or withdraw endpoints, scopes, pricing, or any monthly credit at any time, and may restrict or revoke a developer app. No continued access, approval, or free allowance is guaranteed, especially for the China region, where billing could not be verified at the time of writing.
+2. **Tesla's terms override this project.** Tesla, its logos, and its API names belong to Tesla. Follow Tesla's current Developer Terms, Fleet API documentation, and acceptable-use rules. Tesla may change, deprecate, or withdraw endpoints, scopes, pricing, or any monthly credit at any time, and may restrict or revoke a developer app. No continued access, approval, or free allowance is guaranteed, especially for the China region — see Costs below for what the China subscription page currently lists and why it is not a guarantee.
 3. **Commands are your responsibility.** Before any command that changes the car's state, verify the car is parked (shift P, speed 0), unoccupied in a way that could create a hazard, and the surroundings are safe. Never send lock, unlock, remote-start, climate, trunk/frunk, or charging commands while the vehicle is driving. Always verify the final state afterwards. The author is not responsible for vehicle damage, loss, fines, charges, or account restrictions resulting from misuse or misconfiguration.
 4. **Known limits and failure modes.** This method may fail, and failure is expected in normal use: the vehicle may be asleep (vehicle_data returns 408 until woken), a token may have expired (access tokens last 8 hours, refresh tokens about 3 months and rotate), a scope change requires fresh re-authorization, the cloud browser may fail OAuth even when registration is correct (use a local browser), the REST command endpoint returns 403 and only signed commands work, and network errors can burn a single-use authorization code. Do not retry a failed command blindly without checking whether the first attempt already took effect.
 5. **Foreseeable misuse risks.** Do not use this method to access another person's vehicle, to bypass Tesla security, to build a competing product, to sell personal data, to poll at high frequency, to monitor continuously, or to run automated command loops. Excessive wakes, queries, or commands can incur charges, trigger rate limits, or get an app restricted or revoked.
@@ -80,9 +80,42 @@ Do not start Step 1 until all of these are ready. Missing one will block a later
 5. **A local browser — 本地浏览器**
    - Safari or Chrome on your own phone or PC, for the OAuth authorization step. Do not use the Tesla App's built-in browser, and do not use an AI assistant's cloud browser for this step — the cloud browser has repeatedly failed it.
 6. **No payment, no third-party subscription needed to start — 开始不需要付费**
-   - No payment method is added in this method, and no Tessie or other third-party subscription is required. Tesla's China billing could not be verified, so keep usage light and check Tesla's current terms before scaling up.
+   - No payment method is added in this method, and no third-party subscription is required. See Costs below: Tesla's China page currently lists a $0 Discovery tier with daily limits, but calls it temporary, so keep usage light and check Tesla's current terms before scaling up.
 7. **Time and patience — 时间**
    - This is not a one-click setup. Expect developer-app approval, key hosting, partner registration, OAuth, and vehicle pairing in that order, with a possible retry on the OAuth code (codes are single-use and short-lived).
+
+## Costs — what this project actually costs / 费用 — 这个项目到底花多少钱
+
+The author charges nothing for this project: it is MIT-licensed documentation and a skill file. The costs below are three separate bills, none of them paid to the author. Prices and limits change, so check Tesla's current pages before you scale up from one car and one morning briefing.
+
+### 1. Tesla Fleet API — 特斯拉 Fleet API
+
+Source checked 2026-11-03: Tesla's China subscription-plans page, https://developer.tesla.cn/docs/fleet-api/getting-started/subscription-plans
+
+- **Currently listed plan: Discovery, $0 / vehicle / month**, monthly, auto-renewing until cancelled.
+- **Daily limits per vehicle on that page:** device data 200 requests, commands 50 requests, wakes 15 requests, charging commands 5 requests.
+- **Why this is not a promise of free forever:** the same page says this plan is temporary and will be replaced with different options in 2024. That wording is already stale, which means the page has not been kept up to date — treat $0 as the current listing, not as a guaranteed future price.
+- **A second, different Tesla picture exists:** Tesla's global Billing and Limits page describes a pay-per-use model, with wakes as the most expensive category, data next, and commands lower, plus a $10 / month discount for individual developers and small applications, and a billing limit that defaults to $0 until a payment method is added. Whether a China-region account gets the same rates and the same $10 discount is **not** shown on the China subscription page, so do not budget on the global rates for a China account.
+- **What this project actually uses:** one car, one morning briefing. That is one wake plus a few data calls per day — far below the Discovery daily limits above. In this project no payment method has been added and no Tesla API charge has been paid. High-frequency polling, continuous monitoring, or many cars would change that picture fast, because wakes are the expensive part.
+
+### 2. GitHub — GitHub
+
+- **$0 for what this project needs.** A free GitHub account is enough: public repositories and GitHub Pages are free, and those are exactly what this project uses to host the public key and the OAuth callback page.
+- **No paid GitHub plan is required.** Private repositories do not publish Pages on a free account, so the public-key and callback repositories must stay public — that is a hosting requirement, not a reason to pay.
+- If you later want private hosting, a custom domain, or a paid static host, that is your own optional cost, not a MuseDrive cost.
+
+### 3. Muse and the machine that runs it — Muse 和运行它的机器
+
+- **MuseDrive itself costs $0.** It is not a hosted service and it does not bill you.
+- **If you run it on Muse:** the author of this project used Muse's free tier, with no subscription purchased. Muse has a free weekly allowance; if you exceed it, paid tiers exist, with prices shown in the Muse app and on the Muse website and varying by region — check the current pricing page rather than relying on a price quoted in a README, because it changes.
+- **If you run it on your own machine:** there is no Muse fee, but you pay your own hardware and electricity costs and you become the maintainer.
+- **Third-party Tesla apps are not required.** Third-party services are separate subscriptions if you choose them; this project does not need them, so do not add that cost unless you deliberately want that service.
+
+### How to stay cheap — 怎么保持低成本
+
+- Keep it to one wake per briefing and batch the data calls into that wake. Do not poll every few minutes.
+- Do not add a payment method, another car, or a new automation without first re-checking Tesla's subscription and billing pages.
+- If Tesla ever asks for payment or disables access for exceeding a limit, that is Tesla's billing decision, not a MuseDrive charge — stop, check the portal's usage and billing limit, and scale back before paying anything.
 
 ## How to let your local AI learn this project and start executing / 怎么让本地的 AI 学会这个项目并开始执行
 
@@ -105,7 +138,7 @@ This is a reminder, not a one-click install. A new AI cannot control your car fr
 4. **Walks through the 8 setup steps in order (Step 0–7):** developer-account registration, developer app, key pair and public-key hosting (GitHub Pages is only an example host; any public HTTPS host works, and the `.nojekyll` requirement applies only to GitHub Pages), partner registration before OAuth, local-browser OAuth, token refresh and rotation, read-only queries (semicolon endpoints, wake on 408, tire-pressure fields, miles-to-km conversion), and signed commands with `tesla-control` (including the Go build location and the 403 REST endpoint trap).
 5. **Handles tokens and scope changes:** access 8 hours, refresh about 3 months and rotating, and a fresh authorization after any scope change.
 6. **Records the hard-won pitfalls:** cloud-browser OAuth failure, single-use codes burned by a lost network response, comma-separated endpoints returning empty sections, and urllib failures on this VM (prefer curl).
-7. **Covers accounts and costs:** a three-account security checklist (Muse, Tesla, GitHub, plus Apple ID as separate), and pay-per-use costs with the China billing caveat — no payment method without your approval.
+7. **Covers accounts and costs:** a three-account security checklist (Muse, Tesla, GitHub, plus Apple ID as separate), and costs as described in the README Costs section — no payment method without your approval.
 
 ## What this covers
 
@@ -121,16 +154,19 @@ This is a reminder, not a one-click install. A new AI cannot control your car fr
 - It does not contain, and must never contain, any private key, client secret, token, authorization code, VIN, or personal domain.
 - It does not guarantee that Tesla will approve, keep, or continue to support any developer app.
 
-## Optional skills collection
+## Skills library — what is in `skills/` / 技能库说明
 
-The `skills/` folder is an optional collection of reusable skills. It is not required for the core MuseDrive method.
+The `skills/` folder is an optional collection of reusable skills. It is **not** required for the core MuseDrive method, and a skill in it is **not** auto-installed: copy the skill file to your own assistant and fill in its customization worksheet before first use.
 
-It currently includes exactly one skill:
+**How the library is maintained:** the owner merges new skills; other people contribute by fork and pull request, or by opening an Issue for the owner to review. Every collected skill must be generic, contain no personal data, tokens, keys, VINs, or account details, and be optional and safe by default. New entries are added to the list below with their upload date, so the list itself is the changelog.
 
-- [Daily Morning Briefing](skills/daily-morning-briefing/SKILL.md) - English version
-- [Daily Morning Briefing](skills/daily-morning-briefing/SKILL.zh-CN.md) - Chinese version
+**Currently included (as of 2026-11-03, one skill):**
 
-Later contributions are welcome if they are generic, contain no personal data, and are optional and safe by default.
+- **2026-11-02 — Daily Morning Briefing / 每日早报** — `skills/daily-morning-briefing/SKILL.md` (English), `skills/daily-morning-briefing/SKILL.zh-CN.md` (Chinese). One short, warm, first-person morning message that reads like a good friend, not a report: today's weather and clothing advice, read-only vehicle status (battery, range, charging, tire pressure vs. recommended, lock state, inside/outside temperature), last night's sleep and yesterday's activity if synced, and personalized reminders woven into the chat — plus at most one urgent news item, only when one truly matters. No bold section headings, no counted suggestion lists, conclusions only. The vehicle part requires your own MuseDrive setup; without a car, the same skill can run weather plus health only.
+
+**Not counted as an optional skill:** the core MuseDrive playbook, root `SKILL.md`, published 2026-11-02. That is the method itself, not part of the optional collection.
+
+**Format for future entries:** `YYYY-MM-DD — Skill name — one-line description — file path`. When a new skill is uploaded, add one line here in both the English and Chinese READMEs on the same day.
 
 ## Author / 作者
 
