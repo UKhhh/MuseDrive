@@ -121,6 +121,16 @@ This is a reminder, not a one-click install. A new AI cannot control your car fr
 - It does not contain, and must never contain, any private key, client secret, token, authorization code, VIN, or personal domain.
 - It does not guarantee that Tesla will approve, keep, or continue to support any developer app.
 
+## Optional skills collection
+
+The `skills/` folder is an optional collection of reusable skills. It is not required for the core MuseDrive method.
+
+It currently includes exactly one skill:
+
+- [Daily Morning Briefing](skills/daily-morning-briefing/SKILL.md) - English version
+- [Daily Morning Briefing](skills/daily-morning-briefing/SKILL.zh-CN.md) - Chinese version
+Later contributions are welcome if they are generic, contain no personal data, and are optional and safe by default.
+
 ## Author / 作者
 
 - Douyin / 抖音：神探夏洛克𝕏（抖音号：zayshzh）
