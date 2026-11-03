@@ -73,7 +73,17 @@ copied from yesterday, and the weekday must match the date.
 
 **Emojis:** a few fitting ones, matched to weather, temperature,
 wind, clothing, battery, tires, charging, and sleep. Do not pile
-them up, and do not put one on every sentence.
+them up, and do not put one on every sentence. Emojis are required,
+not optional: a briefing with no emojis at all is a format failure.
+
+**Numbers:** use Arabic numerals for every measurable value —
+temperature, battery percentage, range in km, tire pressure in bar,
+sleep clock times and duration, sleep score, steps, resting heart
+rate. Never turn a known number into a word approximation (for
+example, never write "about four hundred kilometres" when the
+figure is 411 km, and never write "about five and a half hours"
+when the figure is 5.6 hours or 00:27–06:28). Where a number exists,
+use it instead of a vague word.
 
 **Hard rule 1 — no report format.** Never use bold section headings
 (for example "Weather", "Vehicle", "Health", "My suggestions").
@@ -170,18 +180,7 @@ again unless they ask for it back.
   less frequent check-in (for example, a weekly weigh-in) unless
   the user asks otherwise.
 
-## 8. Optional: avatar outfit in the same run
-
-If the assistant has an avatar, the same run may restyle it using
-the same day, place, and weather — no separate weather message
-for the outfit. Rain gear for rain, layers for cold, light clothes
-plus sunglasses for sun, a scarf for wind. Change clothes and
-accessories only; keep the avatar's identity, style, and
-background. If the outfit needed is the same as yesterday's, or
-no forecast could be read, keep the current outfit. Do not dress
-for a guessed forecast.
-
-## 9. Testing before formal use, and saving resources
+## 8. Testing before formal use, and saving resources
 
 - **Test fully before formal use.** When the format changes, run
   manual test versions, check them, fix anything stiff or wrong,
@@ -199,7 +198,7 @@ for a guessed forecast.
   slightly from the last run (battery, inside temperature, and so
   on). That is expected, not an error.
 
-## 10. Failure handling
+## 9. Failure handling
 
 - Vehicle data unavailable (token expired, wake failed, network
   failed): send the rest of the briefing and add one truthful
@@ -211,6 +210,19 @@ for a guessed forecast.
 - A vehicle command is never sent in this job, even if the user
   mentions one in passing. Commands need their own explicit
   confirmation in a separate conversation.
+
+## 10. Scheduled timing: expect a few minutes' delay
+
+The scheduled time is when the worker starts, not when the message
+lands in chat. A normal run takes about 4–5 minutes from start to
+delivery, occasionally around 9 minutes, because the worker pulls
+weather, wakes the vehicle once and reads its status, reads health
+data, composes the briefing, and then hands it to the main chat
+for delivery. This is not a fixed delay setting, and it is not
+caused by the user's network: the same run is slow or fast on the
+same network on different days. If the briefing must appear in
+chat by an exact clock time, schedule the job about 5 minutes
+earlier than that time.
 
 ## Customization Worksheet
 
@@ -231,7 +243,6 @@ works unchanged.
   reminders: __________
 - Topics to never include in the briefing: __________
 - Urgent-news sources and the user's city/region: __________
-- Avatar outfit change: on / off
 - Weekly weigh-in or other separate check-ins: __________
 
 ## What this skill does not do
