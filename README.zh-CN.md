@@ -40,9 +40,41 @@
 
 **安装门：给用户安装 MuseDrive 的助手，必须先用用户语言完整告知 `SECURITY.md` 和免责条款，并且在用户明确确认“已读、理解、接受”之前，不得开始任何安装步骤。这个门现在是 `SKILL.md` 里的第 -1 步。**
 
+## 支持范围
+
+### 支持的车型
+
+这一节按特斯拉官方 Fleet API 和 Vehicle Command 文档写，不是猜的。MuseDrive 本身只用 `vehicle_data` 查询和 `tesla-control` 签名命令，不用 Fleet Telemetry 流式推送。
+
+- **Model 3 — 所有年份：支持。** 所有 Model 3 都能走官方 Vehicle Command Proxy。
+- **Model Y — 所有年份：支持。** 所有 Model Y 都能走官方 Vehicle Command Proxy。
+- **Model S / Model X — 2018 年中以后：支持。** 更早的 S / X 只有换过 MCU2 才能用，没换 MCU2 的只能继续用旧的 Owner API 发命令，不适合这个签名命令方法。官方 Fleet Telemetry 文档也排除了 2018 年以前的 S / X，部分新的签名命令流程还排除了 2021 年以前的 S / X，所以 2021 年以前的 S / X 车主必须先用 `fleet_status` / `vehicle_command_protocol_required` 查自己这辆车，别直接默认全支持。
+- **Cybertruck：官方 Proxy 支持，但 MuseDrive 里没测过。** 原则上支持，本项目里算未测试。
+- **Semi：官方 Proxy 列表里有，但不在本项目范围。** MuseDrive 是个人单车项目，不是车队项目。
+- **其他车型 / 未来车型：在特斯拉列出之前都当成不支持。** 别因为挂着特斯拉标就默认能用。
+- **固件说明：** 2023 年 11 月以后交付的车只支持 Vehicle Command Protocol，2024 年 1 月起所有车（特斯拉公告里 2021 年以前 S / X 的排除项除外）都要求用它，所以本项目才用签名命令，不用旧的 REST 命令接口。固件 2023.38 及以上版本，拿位置必须显式请求 `location_data`。
+- **账号要求：** 必须是特斯拉车主账号，车已经绑在特斯拉 App 里、开了移动访问、并且配好了这个应用的虚拟钥匙。共享驾驶账号如果 `granular_access.hide_private` 是 `true`，就算给了位置权限也不会给位置，命令权限也可能不全。
+- **地区：** 这个技能是按**中国区**写和测的（developer.tesla.cn、auth.tesla.cn、fleet-api.prd.cn.vn.cloud.tesla.cn）。全球区用的是另一套地址，步骤类似，但**本项目里没测过**，不要只换个地址就默认能用。
+
+**MuseDrive 实测过 vs. 官方支持，别混淆：** 本项目里真正端到端测过的只有一辆 Model 3（车辆列表、唤醒、只读查询、签名闪灯 / 开锁 / 关锁、虚拟钥匙配对）。上面其他车型是特斯拉官方 API 支持的，本项目没测过，每个用户必须在自己车上一步步验证。
+
+官方来源：[Tesla Fleet API — Vehicle Endpoints](https://developer.tesla.com/docs/fleet-api/endpoints/vehicle-endpoints)、[Tesla Fleet API — Announcements](https://developer.tesla.com/docs/fleet-api/announcements)、[Tesla Fleet API — Fleet Telemetry](https://developer.tesla.com/docs/fleet-api/fleet-telemetry)。
+
+### 能装到别的 AI 上吗
+
+**原则上可以——方法是通用的，但安全门和凭证不能靠复制粘贴转移。**
+
+- `SKILL.md` 里的核心方法是普通 Markdown 加标准工具（curl、Go、`tesla-control`、本地浏览器走 OAuth）。任何能读完整技能、跑终端命令、用 600 权限存密钥、请用户在自己本地浏览器完成 OAuth、并且每步都验证的 AI 助手都能照着做，比如别的聊天助手、编程助手、有工具权限的本地 Agent。
+- **不适合的情况：** 只有手机、没有终端和安全文件存储的助手；没法把密钥挡在聊天和仓库之外的助手；会跳过第 -1 步安全门的助手。这些情况不要装。
+- **Muse 专属的部分不会自动跟着走：** Muse 的定时任务（早报、胎压提醒）、Muse 的记忆和目标、Muse 的浏览器，都是 Muse 的功能。换到别的 AI 上，定时和提醒要靠那个 AI 自己的工具重新实现，而且必须重新走第 -1 步安全门。
+- **不要在聊天里把 token、密钥从一个 AI 复制到另一个 AI。** 新 AI 应该在同一个开发者应用下重新授权换新 token，或者只通过安全、私密的传输方式接手已有的 600 权限密钥 / token 文件，绝不要贴到聊天、仓库、截图里。多个 AI 共用一套 token / 密钥会扩大泄露面，默认更安全的做法是给新 AI 重新授权。
+- **一个 AI、一个用户、一辆车：** 安全门、开发者应用、域名、密钥对都是按人来的。第二个人不能复用你的应用、域名、密钥，必须自己注册、自己过安全门。
+
 ## 更新说明 — 这个项目还在维护
 
 这个项目是有人在维护的。
+
+**2026-11-04 — 新增支持范围：** 已按特斯拉官方 Fleet API 文档新增支持范围，见上面的支持范围一节和 `SKILL.md`：车型、固件、账号、地区，以及能否装到别的 AI 上。实测过的只有 Model 3，其他车型是官方支持、项目未测。
 
 **2026-11-04 — 安全提醒和安装门：**
 - 新增独立的中英双语安全提醒 [`SECURITY.md`](./SECURITY.md)，并在中英文 README 里都做了链接。

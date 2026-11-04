@@ -23,6 +23,17 @@ Only after an explicit confirmation may the assistant move to the preparation ch
 
 Naming note: the main skill entry file must stay named `SKILL.md`, because skill loaders discover a skill by that exact filename. Renaming it to `main-skill.md` would break auto-discovery, so the main-skill identity is carried by the project and by this gate instead: this file IS the main skill, and any copy, fork, or install package should be labelled `main-skill` (for example a `main-skill` folder or a `main-skill.zip`) while keeping `SKILL.md` inside it unchanged.
 
+## Support scope — supported vehicles and other AIs
+
+Follow Tesla's official Fleet API and Vehicle Command documentation for this section. This skill uses only `vehicle_data` queries and signed commands via `tesla-control`; it does not use Fleet Telemetry streaming.
+
+- Supported by the official Vehicle Command Proxy: Model 3 (all years), Model Y (all years), Model S / X from mid-2018 onwards, and Cybertruck (officially supported, not tested in this project). Older Model S / X only work with an MCU2 retrofit; without it they use the old Owner API and do not fit this method. Pre-2021 Model S / X must be checked individually via `fleet_status` / `vehicle_command_protocol_required`, because some newer flows exclude them. Semi is officially listed for the proxy but out of scope for this personal project. Other or future models are unsupported until Tesla lists them.
+- Firmware: vehicles delivered from November 2023 only support the Vehicle Command Protocol, and from January 2024 all vehicles (except the pre-2021 Model S / X exclusion in Tesla's announcement) require it. Firmware 2023.38+ requires explicitly requesting `location_data` for location.
+- Account: Tesla owner account only, vehicle bound in the Tesla App, mobile access enabled, virtual key paired. A share account with `granular_access.hide_private` set to `true` receives no location even with the location scope granted.
+- Region: this skill is written and tested for the China region (developer.tesla.cn, auth.tesla.cn, fleet-api.prd.cn.vn.cloud.tesla.cn). Global hosts are analogous but untested here; do not swap hosts blindly.
+- Tested vs. officially supported: only a Model 3 has been tested end-to-end in this project. Other models above are officially supported but project-untested; verify every step on the user's own car.
+- Other AIs: yes, in principle. The method is plain markdown plus curl, Go, `tesla-control`, and a local browser for OAuth, so any AI that can read the whole skill, run terminal commands, store secrets in 600-permission files, ask the user to complete OAuth locally, and verify each step can follow it. It does not work for a phone-only AI with no terminal or secure storage, or an AI that cannot keep secrets out of chat/repos or will skip Step -1. Muse-specific scheduling, memory, goals, and browser do not transfer automatically; another AI must re-implement them and re-run Step -1. Do not copy tokens or keys across AIs in chat; re-authorize for the new AI by default, or transfer 600-permission files only through a secure private channel. Each user must register their own developer app, domain, and key pair and pass Step -1 themselves.
+
 ## Before you start — preparation checklist
 
 Do not start Step 0 until all of these are ready, and do not start Step 0 at all until the Step -1 safety gate above has been explicitly confirmed. Missing one will block a later step.

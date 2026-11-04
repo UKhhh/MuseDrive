@@ -40,9 +40,42 @@ In short, and this summary does not replace the full reminder:
 
 **Installation gate: an assistant installing MuseDrive for a user must present `SECURITY.md` and the disclaimer in full, in the user's language, and must not start any installation step until the user has explicitly confirmed they have read it, understand it, and accept it. This gate is now Step -1 in `SKILL.md`.**
 
+## Support scope — 支持范围
+
+### Supported vehicles / 支持的车型
+
+This section follows Tesla's official Fleet API and Vehicle Command documentation, not a guess. MuseDrive itself uses only `vehicle_data` queries and signed commands via `tesla-control`; it does not use Fleet Telemetry streaming.
+
+- **Model 3 — all years: supported.** All Model 3 vehicles work with the official Vehicle Command Proxy.
+- **Model Y — all years: supported.** All Model Y vehicles work with the official Vehicle Command Proxy.
+- **Model S / Model X — mid-2018 onwards: supported.** Older Model S / X only work if they have had an MCU2 retrofit; without MCU2 they continue to use the old Owner API for commands and do not fit this signed-command method. Official Fleet Telemetry documentation also excludes pre-2018 Model S / X, and some newer signed-command flows exclude pre-2021 Model S / X, so pre-2021 S / X owners must verify `fleet_status` / `vehicle_command_protocol_required` for their own car before assuming full support.
+- **Cybertruck: officially supported by the Vehicle Command Proxy, but not tested in MuseDrive.** Treat it as supported in principle, untested in this project.
+- **Semi: officially listed for the Vehicle Command Proxy, but out of scope here.** MuseDrive is a personal, single-vehicle project, not a fleet project.
+- **Other models / future models: treat as unsupported until Tesla lists them.** Do not assume a model works just because it has a Tesla badge.
+- **Firmware notes:** vehicles delivered from November 2023 only support the Vehicle Command Protocol, and from January 2024 all vehicles (except the pre-2021 Model S / X exclusion in Tesla's announcement) require it — which is why this project uses signed commands, not the old REST command endpoint. For firmware 2023.38+, location requires explicitly requesting `location_data`.
+- **Account requirement:** the Tesla owner account only, with the vehicle already bound in the Tesla App and mobile access enabled, and with the application's virtual key paired to the car. A shared driver account with `granular_access.hide_private` set to `true` receives no location even with the location scope granted, and may not have full command rights.
+- **Region:** this skill is written and tested for the **China region** (developer.tesla.cn, auth.tesla.cn, fleet-api.prd.cn.vn.cloud.tesla.cn). The global region uses different hosts; the steps are analogous but are **not tested in this project**, so do not simply swap hosts and assume it works.
+
+**Tested in MuseDrive vs. officially supported — do not confuse the two:** only a Model 3 has actually been tested end-to-end in this project (vehicle list, wake, read-only queries, signed flash-lights / unlock / lock, virtual-key pairing). Other models above are officially supported by Tesla's API, but have not been tested by this project, so each user must verify every step on their own car.
+
+Official sources: [Tesla Fleet API — Vehicle Endpoints](https://developer.tesla.com/docs/fleet-api/endpoints/vehicle-endpoints), [Tesla Fleet API — Announcements](https://developer.tesla.com/docs/fleet-api/announcements), [Tesla Fleet API — Fleet Telemetry](https://developer.tesla.com/docs/fleet-api/fleet-telemetry).
+
+### Can it be installed on another AI? / 能装到别的 AI 上吗
+
+**Yes, in principle — the method is AI-agnostic, but the safety gate and the credentials are not transferable by copy-paste.**
+
+- The core method in `SKILL.md` is plain markdown plus standard tools (curl, Go, `tesla-control`, a local browser for OAuth). Any AI assistant that can read the whole skill, run terminal commands, store secrets in 600-permission files, ask the user to complete OAuth in their own local browser, and verify each step can follow it — for example another chat assistant, a coding assistant, or a local agent with tool access.
+- **It does not work for:** a phone-only assistant with no terminal or secure file storage, an assistant that cannot keep secrets out of chat and repos, or an assistant that will skip the Step -1 safety gate. If an AI cannot do those things, do not install it there.
+- **Muse-specific parts do not transfer automatically:** Muse scheduled tasks (morning briefing, tire-pressure alerts), Muse memory and goals, and Muse's browser are Muse features. Another AI must re-implement scheduling and reminders with its own tools, and must re-run the Step -1 safety gate for its own user.
+- **Do not copy tokens or keys across AIs in chat.** A new AI instance should either re-authorize with a fresh token under the same developer app, or receive the existing 600-permission key/token files only through a secure, private transfer — never pasted into chat, a repo, or a screenshot. Sharing one token/key across multiple AIs increases the leak surface, so re-authorizing for the new AI is the safer default.
+- **Each AI, each user, each car:** the safety gate, the developer app, the domain, and the key pair are per-user. A second person must not reuse your app, domain, or key; they must register their own and pass the safety gate themselves.
+
 ## Updates — 更新说明 / 这个项目还在维护
 
 This project is actively maintained.
+
+**2026-11-04 — Support scope added / 新增支持范围：** supported vehicles and other-AI installability, per Tesla's official Fleet API documentation, in the new Support scope section above and in `SKILL.md`. Only Model 3 is project-tested; other models are officially supported but project-untested.
+- 支持范围已按特斯拉官方 Fleet API 文档新增，见上面的支持范围一节和 `SKILL.md`：车型、固件、账号、地区，以及能否装到别的 AI 上。实测过的只有 Model 3，其他车型是官方支持、项目未测。
 
 **2026-11-04 — Security reminder and installation gate / 安全提醒和安装门：**
 - Added [`SECURITY.md`](./SECURITY.md), a standalone bilingual security reminder, and linked it from both READMEs.
