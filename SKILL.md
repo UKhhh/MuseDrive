@@ -9,9 +9,9 @@ Project: MuseDrive for Tesla. Brand name is MuseDrive; "for Tesla" is a descript
 
 This skill records the working method, not a specific account. Never put a client secret, private key, access token, refresh token, authorization code, VIN, or callback URL containing a personal domain into this file, chat, a browser task, or a public repo. Personal values live only in the user's developer portal and in 600-permission files under `~/workspace/tesla-fleet/`.
 
-## Step -1: Safety gate — mandatory before any installation (main-skill entry gate)
+## Step -1: Safety gate — mandatory before any installation
 
-This gate applies to the main skill file, `SKILL.md` in this project (the main-skill entry point; see the naming note below). It is not optional, and it is not a formality.
+This gate applies to the skill file, `SKILL.md` in this project, as originally published. It is not optional, and it is not a formality.
 
 Before Step 0, before any developer-account, app, key, domain, OAuth, token, or pairing step, and before asking the user for any login, code, secret, or callback URL, the assistant MUST:
 
@@ -21,18 +21,14 @@ Before Step 0, before any developer-account, app, key, domain, OAuth, token, or 
 
 Only after an explicit confirmation may the assistant move to the preparation checklist and Step 0. Record that confirmation happened in the conversation; do not record the user's secrets, and do not treat a previous session's confirmation as confirmation for a new user or a new vehicle.
 
-Naming note: the main skill entry file must stay named `SKILL.md`, because skill loaders discover a skill by that exact filename. Renaming it to `main-skill.md` would break auto-discovery, so the main-skill identity is carried by the project and by this gate instead: this file IS the main skill, and any copy, fork, or install package should be labelled `main-skill` (for example a `main-skill` folder or a `main-skill.zip`) while keeping `SKILL.md` inside it unchanged.
-
 ## Support scope — supported vehicles and other AIs
 
-Follow Tesla's official Fleet API and Vehicle Command documentation for this section. This skill uses only `vehicle_data` queries and signed commands via `tesla-control`; it does not use Fleet Telemetry streaming.
+Source: Tesla's official Fleet API / Vehicle Command project documentation. Only models sold in China are listed.
 
-- Supported by the official Vehicle Command Proxy: Model 3 (all years), Model Y (all years), Model S / X from mid-2018 onwards, and Cybertruck (officially supported, not tested in this project). Older Model S / X only work with an MCU2 retrofit; without it they use the old Owner API and do not fit this method. Pre-2021 Model S / X must be checked individually via `fleet_status` / `vehicle_command_protocol_required`, because some newer flows exclude them. Semi is officially listed for the proxy but out of scope for this personal project. Other or future models are unsupported until Tesla lists them.
-- Firmware: vehicles delivered from November 2023 only support the Vehicle Command Protocol, and from January 2024 all vehicles (except the pre-2021 Model S / X exclusion in Tesla's announcement) require it. Firmware 2023.38+ requires explicitly requesting `location_data` for location.
-- Account: Tesla owner account only, vehicle bound in the Tesla App, mobile access enabled, virtual key paired. A share account with `granular_access.hide_private` set to `true` receives no location even with the location scope granted.
-- Region: this skill is written and tested for the China region (developer.tesla.cn, auth.tesla.cn, fleet-api.prd.cn.vn.cloud.tesla.cn). Global hosts are analogous but untested here; do not swap hosts blindly.
-- Tested vs. officially supported: only a Model 3 has been tested end-to-end in this project. Other models above are officially supported but project-untested; verify every step on the user's own car.
-- Other AIs: yes, in principle. The method is plain markdown plus curl, Go, `tesla-control`, and a local browser for OAuth, so any AI that can read the whole skill, run terminal commands, store secrets in 600-permission files, ask the user to complete OAuth locally, and verify each step can follow it. It does not work for a phone-only AI with no terminal or secure storage, or an AI that cannot keep secrets out of chat/repos or will skip Step -1. Muse-specific scheduling, memory, goals, and browser do not transfer automatically; another AI must re-implement them and re-run Step -1. Do not copy tokens or keys across AIs in chat; re-authorize for the new AI by default, or transfer 600-permission files only through a secure private channel. Each user must register their own developer app, domain, and key pair and pass Step -1 themselves.
+- Supported vehicles: Tesla Model S / 3 / X / Y. Model S / X from mid-2018 onwards; older S / X only with an MCU2 retrofit. Only a Model 3 has been tested end-to-end in this project; other models are officially supported but project-untested — verify every step on the user's own car.
+- Firmware / account: Vehicle Command Protocol required; firmware 2023.38+ requires explicitly requesting `location_data` for location. Owner account only; a share account with `hide_private` set to `true` receives no location.
+- Region: written and tested for China (developer.tesla.cn, auth.tesla.cn, fleet-api.prd.cn.vn.cloud.tesla.cn). Outside China, replace these throughout with the global hosts: developer.tesla.com, auth.tesla.com, fleet-api.prd.na.vn.cloud.tesla.com, with the token audience matching the Fleet API host. Do not mix China and global hosts, and re-verify partner registration, OAuth, and pairing after switching.
+- Other AIs: yes, in principle — plain markdown plus curl, Go, `tesla-control`, and a local browser for OAuth, for any AI that can read the whole skill, run terminal commands, store secrets in 600-permission files, and verify each step, after re-running Step -1. Muse-specific scheduling, memory, and browser do not transfer automatically. Do not copy tokens or keys across AIs in chat; re-authorize for the new AI by default.
 
 ## Before you start — preparation checklist
 

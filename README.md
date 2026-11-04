@@ -7,6 +7,16 @@
 
 A working method for connecting your own Tesla to an AI assistant through Tesla's official Fleet API (China region), for read-only queries and signed vehicle commands. See `SKILL.md` for the full method.
 
+## Support scope — 支持范围
+
+> **Source: Tesla's official Fleet API / Vehicle Command project documentation.**
+> **来源备注：特斯拉官方 Fleet 项目说明。**
+
+- **Supported vehicles: Tesla Model S / 3 / X / Y.** Only models sold in China are listed here; models not sold in China are not listed. Model S / X from mid-2018 onwards are supported; older S / X only with an MCU2 retrofit. Only a Model 3 has been tested end-to-end in this project — other models are officially supported but project-untested, so verify every step on your own car.
+- **Firmware / account:** Vehicle Command Protocol is required (firmware 2023.38+ requires explicitly requesting `location_data` for location). Tesla owner account only; a share account with `hide_private` set to `true` receives no location.
+- **Region — China by default, other regions read this:** this project is written for the China region. Outside China, replace the China hosts with the global hosts throughout the steps — developer portal `developer.tesla.com` (not `.cn`), authorization/token host `auth.tesla.com`, Fleet API host `fleet-api.prd.na.vn.cloud.tesla.com` (not `fleet-api.prd.cn.vn.cloud.tesla.cn`), and the same token audience as the Fleet API host. Do not mix China and global hosts in one setup, and re-verify partner registration, OAuth, and pairing after switching hosts.
+- **Other AIs:** yes, in principle — the method is plain markdown plus curl, Go, `tesla-control`, and a local browser for OAuth, so any AI that can read the whole skill, run terminal commands, store secrets in 600-permission files, and verify each step can follow it, after re-running the Step -1 safety gate. Muse-specific scheduling, memory, and browser do not transfer automatically, and tokens/keys must not be copied across AIs in chat — re-authorize for the new AI by default.
+
 ## Disclaimer — please read before use / 免责声明（使用前必读）
 
 **This project is provided "as is", without warranty of any kind, and the author is not liable for any claim, damage, or other liability arising from its use. By using it, you accept all risks below.**
@@ -40,39 +50,12 @@ In short, and this summary does not replace the full reminder:
 
 **Installation gate: an assistant installing MuseDrive for a user must present `SECURITY.md` and the disclaimer in full, in the user's language, and must not start any installation step until the user has explicitly confirmed they have read it, understand it, and accept it. This gate is now Step -1 in `SKILL.md`.**
 
-## Support scope — 支持范围
-
-### Supported vehicles / 支持的车型
-
-This section follows Tesla's official Fleet API and Vehicle Command documentation, not a guess. MuseDrive itself uses only `vehicle_data` queries and signed commands via `tesla-control`; it does not use Fleet Telemetry streaming.
-
-- **Model 3 — all years: supported.** All Model 3 vehicles work with the official Vehicle Command Proxy.
-- **Model Y — all years: supported.** All Model Y vehicles work with the official Vehicle Command Proxy.
-- **Model S / Model X — mid-2018 onwards: supported.** Older Model S / X only work if they have had an MCU2 retrofit; without MCU2 they continue to use the old Owner API for commands and do not fit this signed-command method. Official Fleet Telemetry documentation also excludes pre-2018 Model S / X, and some newer signed-command flows exclude pre-2021 Model S / X, so pre-2021 S / X owners must verify `fleet_status` / `vehicle_command_protocol_required` for their own car before assuming full support.
-- **Cybertruck: officially supported by the Vehicle Command Proxy, but not tested in MuseDrive.** Treat it as supported in principle, untested in this project.
-- **Semi: officially listed for the Vehicle Command Proxy, but out of scope here.** MuseDrive is a personal, single-vehicle project, not a fleet project.
-- **Other models / future models: treat as unsupported until Tesla lists them.** Do not assume a model works just because it has a Tesla badge.
-- **Firmware notes:** vehicles delivered from November 2023 only support the Vehicle Command Protocol, and from January 2024 all vehicles (except the pre-2021 Model S / X exclusion in Tesla's announcement) require it — which is why this project uses signed commands, not the old REST command endpoint. For firmware 2023.38+, location requires explicitly requesting `location_data`.
-- **Account requirement:** the Tesla owner account only, with the vehicle already bound in the Tesla App and mobile access enabled, and with the application's virtual key paired to the car. A shared driver account with `granular_access.hide_private` set to `true` receives no location even with the location scope granted, and may not have full command rights.
-- **Region:** this skill is written and tested for the **China region** (developer.tesla.cn, auth.tesla.cn, fleet-api.prd.cn.vn.cloud.tesla.cn). The global region uses different hosts; the steps are analogous but are **not tested in this project**, so do not simply swap hosts and assume it works.
-
-**Tested in MuseDrive vs. officially supported — do not confuse the two:** only a Model 3 has actually been tested end-to-end in this project (vehicle list, wake, read-only queries, signed flash-lights / unlock / lock, virtual-key pairing). Other models above are officially supported by Tesla's API, but have not been tested by this project, so each user must verify every step on their own car.
-
-Official sources: [Tesla Fleet API — Vehicle Endpoints](https://developer.tesla.com/docs/fleet-api/endpoints/vehicle-endpoints), [Tesla Fleet API — Announcements](https://developer.tesla.com/docs/fleet-api/announcements), [Tesla Fleet API — Fleet Telemetry](https://developer.tesla.com/docs/fleet-api/fleet-telemetry).
-
-### Can it be installed on another AI? / 能装到别的 AI 上吗
-
-**Yes, in principle — the method is AI-agnostic, but the safety gate and the credentials are not transferable by copy-paste.**
-
-- The core method in `SKILL.md` is plain markdown plus standard tools (curl, Go, `tesla-control`, a local browser for OAuth). Any AI assistant that can read the whole skill, run terminal commands, store secrets in 600-permission files, ask the user to complete OAuth in their own local browser, and verify each step can follow it — for example another chat assistant, a coding assistant, or a local agent with tool access.
-- **It does not work for:** a phone-only assistant with no terminal or secure file storage, an assistant that cannot keep secrets out of chat and repos, or an assistant that will skip the Step -1 safety gate. If an AI cannot do those things, do not install it there.
-- **Muse-specific parts do not transfer automatically:** Muse scheduled tasks (morning briefing, tire-pressure alerts), Muse memory and goals, and Muse's browser are Muse features. Another AI must re-implement scheduling and reminders with its own tools, and must re-run the Step -1 safety gate for its own user.
-- **Do not copy tokens or keys across AIs in chat.** A new AI instance should either re-authorize with a fresh token under the same developer app, or receive the existing 600-permission key/token files only through a secure, private transfer — never pasted into chat, a repo, or a screenshot. Sharing one token/key across multiple AIs increases the leak surface, so re-authorizing for the new AI is the safer default.
-- **Each AI, each user, each car:** the safety gate, the developer app, the domain, and the key pair are per-user. A second person must not reuse your app, domain, or key; they must register their own and pass the safety gate themselves.
-
 ## Updates — 更新说明 / 这个项目还在维护
 
 This project is actively maintained.
+
+**2026-11-04 — Support scope simplified and moved to the front, foreign-user hosts added, skill rename dropped:** support scope is now abbreviated (Tesla Model S / 3 / X / Y only, no models not sold in China), placed at the very front of the README, with a source note to Tesla's official Fleet project documentation; foreign users get a China-to-global host mapping (`.cn` to `.com` / global Fleet API host). The earlier skill rename idea is dropped — naming stays as originally published, `SKILL.md` unchanged.
+- 支持范围已简化并移到最前面，国外用户地址映射已加，skill 改名已取消，仍按原来来。
 
 **2026-11-04 — Support scope added / 新增支持范围：** supported vehicles and other-AI installability, per Tesla's official Fleet API documentation, in the new Support scope section above and in `SKILL.md`. Only Model 3 is project-tested; other models are officially supported but project-untested.
 - 支持范围已按特斯拉官方 Fleet API 文档新增，见上面的支持范围一节和 `SKILL.md`：车型、固件、账号、地区，以及能否装到别的 AI 上。实测过的只有 Model 3，其他车型是官方支持、项目未测。
@@ -80,10 +63,9 @@ This project is actively maintained.
 **2026-11-04 — Security reminder and installation gate / 安全提醒和安装门：**
 - Added [`SECURITY.md`](./SECURITY.md), a standalone bilingual security reminder, and linked it from both READMEs.
 - Added Step -1 to `SKILL.md`: an assistant must present the security reminder and disclaimer in full, in the user's language, and obtain explicit confirmation before any installation step. A vague reply, a skipped step, or implied consent does not count.
-- Naming: the main skill entry file must stay named `SKILL.md`, because skill loaders discover a skill by that exact filename. The main-skill identity is therefore carried by the project and by the Step -1 gate, and any install package should be labelled `main-skill` (for example a `main-skill` folder or `main-skill.zip`) while keeping `SKILL.md` inside it unchanged.
 - 新增独立的中英双语安全提醒 [`SECURITY.md`](./SECURITY.md)，并在中英文 README 里都做了链接。
 - `SKILL.md` 里新增第 -1 步安装门：助手必须先用用户语言完整告知安全提醒和免责条款，拿到用户明确确认后才能开始任何安装步骤，含糊回复、跳过步骤、默认同意都不算。
-- 命名：主技能入口文件必须保持 `SKILL.md` 这个名字，因为技能加载器就是按这个确切文件名识别技能的。main-skill 的身份改由项目本身和第 -1 步来承载，安装包可以叫 `main-skill`（比如 `main-skill` 文件夹或 `main-skill.zip`），里面保持 `SKILL.md` 不变。 When a method in it turns out to be wrong or incomplete, it is corrected here and in `SKILL.md`, with the date, instead of quietly leaving the old text in place.
+ When a method in it turns out to be wrong or incomplete, it is corrected here and in `SKILL.md`, with the date, instead of quietly leaving the old text in place.
 
 **2026-11-03 — Location query corrected / 位置查询已修正：**
 - Before this fix, the skill's read-only query examples did not mention `location_data`, so a reader following them would get battery, range, and tire pressure but no GPS coordinates at all. That is now corrected in `SKILL.md` Step 6.
