@@ -9,9 +9,23 @@ Project: MuseDrive for Tesla. Brand name is MuseDrive; "for Tesla" is a descript
 
 This skill records the working method, not a specific account. Never put a client secret, private key, access token, refresh token, authorization code, VIN, or callback URL containing a personal domain into this file, chat, a browser task, or a public repo. Personal values live only in the user's developer portal and in 600-permission files under `~/workspace/tesla-fleet/`.
 
+## Step -1: Safety gate — mandatory before any installation (main-skill entry gate)
+
+This gate applies to the main skill file, `SKILL.md` in this project (the main-skill entry point; see the naming note below). It is not optional, and it is not a formality.
+
+Before Step 0, before any developer-account, app, key, domain, OAuth, token, or pairing step, and before asking the user for any login, code, secret, or callback URL, the assistant MUST:
+
+1. Present the full security reminder in `SECURITY.md` and the disclaimer in the README, in the user's own language, in full — not a one-line summary, not a link alone.
+2. Ask the user to explicitly confirm, in their own words, that they have read it, understand it, and accept it, including: this is an unofficial personal project not affiliated with Tesla; it is for their own vehicle and personal use only; a leaked private key plus token can allow control of the car within the approved scopes; they will keep all secrets private and use their own developer app, domain, and key pair; and they accept the project as-is with no warranty.
+3. Wait for that explicit confirmation. If the user declines, answers vaguely, asks to skip it, or gives only implied consent, STOP. Do not start Step 0, do not create an app, do not generate a key, do not ask for a login or authorization code, and do not proceed on the assumption that they will confirm later.
+
+Only after an explicit confirmation may the assistant move to the preparation checklist and Step 0. Record that confirmation happened in the conversation; do not record the user's secrets, and do not treat a previous session's confirmation as confirmation for a new user or a new vehicle.
+
+Naming note: the main skill entry file must stay named `SKILL.md`, because skill loaders discover a skill by that exact filename. Renaming it to `main-skill.md` would break auto-discovery, so the main-skill identity is carried by the project and by this gate instead: this file IS the main skill, and any copy, fork, or install package should be labelled `main-skill` (for example a `main-skill` folder or a `main-skill.zip`) while keeping `SKILL.md` inside it unchanged.
+
 ## Before you start — preparation checklist
 
-Do not start Step 0 until all of these are ready. Missing one will block a later step.
+Do not start Step 0 until all of these are ready, and do not start Step 0 at all until the Step -1 safety gate above has been explicitly confirmed. Missing one will block a later step.
 
 - Tesla owner account, with the vehicle already bound in the Tesla App, two-factor authentication on, and the Tesla App on the user's phone for pairing.
 - GitHub account, with two-factor authentication on, able to create public repos and enable Pages (private repos do not publish Pages on a free account).
@@ -59,7 +73,7 @@ These are optional, require the user's explicit approval and chosen schedule and
 
 ## How a new AI should onboard with this skill
 
-If a user gives this skill to a new AI, that AI should: read the whole skill first, check the preparation checklist, and start at Step 0. Ask the user before every step that needs their login, confirmation, or a callback URL. Verify each stage before moving on (app valid, public-key URL 200 and matching, partner registration 200, token exchange succeeds, vehicle list works, wake works, read-only query works, pairing confirmed, signed command exits 0 and is verified). Do not jump to commands, do not paste secrets into chat, and do not set up briefings or alerts until read-only queries and at least one signed command are verified.
+If a user gives this skill to a new AI, that AI should: read the whole skill first, run the Step -1 safety gate (present `SECURITY.md` and the disclaimer in full, in the user's language, and obtain explicit confirmation) before anything else, then check the preparation checklist, and only then start at Step 0. Ask the user before every step that needs their login, confirmation, or a callback URL. Verify each stage before moving on (app valid, public-key URL 200 and matching, partner registration 200, token exchange succeeds, vehicle list works, wake works, read-only query works, pairing confirmed, signed command exits 0 and is verified). Do not jump to commands, do not paste secrets into chat, and do not set up briefings or alerts until read-only queries and at least one signed command are verified.
 
 ## When to use
 

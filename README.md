@@ -25,9 +25,32 @@ A working method for connecting your own Tesla to an AI assistant through Tesla'
    - Mitigations you must follow: never leave valuables in the car; always verify the car is locked again after any unlock; keep sentry mode on when parked somewhere unfamiliar; do not post your license plate, VIN, home or work location, or live location in demo videos, screenshots, or repo issues; do not share your Muse, Tesla, or GitHub login, and do not let another person send commands from your account. If you notice an unfamiliar unlock, an unfamiliar key, or an unfamiliar third-party authorization, treat it as a possible theft attempt: check the car and its contents immediately, revoke the Tesla authorization, delete the virtual key, and change your passwords before using the method again.
    - The author is not liable for vehicle theft, break-in, or loss of property inside the car, whether caused by a leaked credential, a mis-sent command, a failure to re-lock, or a third party's misuse of this method.
 
+## Security reminder — read before installing / 安全提醒（安装前必读）
+
+**Full text: [`SECURITY.md`](./SECURITY.md). Read it before installing. Do not start installation until you have read it and explicitly confirmed it.**
+
+In short, and this summary does not replace the full reminder:
+
+- Only your own vehicle, with your own Tesla account, for personal, non-commercial use. Do not use it on another person's car, do not offer it as a service, and do not collect other people's tokens or keys.
+- Enable two-factor authentication on your Tesla, GitHub, and assistant accounts, and regularly review third-party authorizations and the key list in the car. Remove anything unfamiliar.
+- Never publish or share a private key, client secret, token, authorization code, VIN, plate, or live location. Each person must use their own developer app, domain, and key pair — whoever holds the private key and token can control the car within the approved scopes.
+- Remote unlock carries a real theft risk: never leave valuables in the car, always verify re-lock after any unlock, keep sentry on somewhere unfamiliar, and never send a state-changing command while driving.
+- Grant only the scopes you need, do not poll at high frequency or monitor continuously, and do not add a payment method without explicit approval — China billing is not fully verified as free.
+- If you see an unfamiliar unlock, key, or authorization, treat it as a possible theft attempt: check the car, revoke authorization, delete the virtual key, and change passwords before using this method again.
+
+**Installation gate: an assistant installing MuseDrive for a user must present `SECURITY.md` and the disclaimer in full, in the user's language, and must not start any installation step until the user has explicitly confirmed they have read it, understand it, and accept it. This gate is now Step -1 in `SKILL.md`.**
+
 ## Updates — 更新说明 / 这个项目还在维护
 
-This project is actively maintained. When a method in it turns out to be wrong or incomplete, it is corrected here and in `SKILL.md`, with the date, instead of quietly leaving the old text in place.
+This project is actively maintained.
+
+**2026-11-04 — Security reminder and installation gate / 安全提醒和安装门：**
+- Added [`SECURITY.md`](./SECURITY.md), a standalone bilingual security reminder, and linked it from both READMEs.
+- Added Step -1 to `SKILL.md`: an assistant must present the security reminder and disclaimer in full, in the user's language, and obtain explicit confirmation before any installation step. A vague reply, a skipped step, or implied consent does not count.
+- Naming: the main skill entry file must stay named `SKILL.md`, because skill loaders discover a skill by that exact filename. The main-skill identity is therefore carried by the project and by the Step -1 gate, and any install package should be labelled `main-skill` (for example a `main-skill` folder or `main-skill.zip`) while keeping `SKILL.md` inside it unchanged.
+- 新增独立的中英双语安全提醒 [`SECURITY.md`](./SECURITY.md)，并在中英文 README 里都做了链接。
+- `SKILL.md` 里新增第 -1 步安装门：助手必须先用用户语言完整告知安全提醒和免责条款，拿到用户明确确认后才能开始任何安装步骤，含糊回复、跳过步骤、默认同意都不算。
+- 命名：主技能入口文件必须保持 `SKILL.md` 这个名字，因为技能加载器就是按这个确切文件名识别技能的。main-skill 的身份改由项目本身和第 -1 步来承载，安装包可以叫 `main-skill`（比如 `main-skill` 文件夹或 `main-skill.zip`），里面保持 `SKILL.md` 不变。 When a method in it turns out to be wrong or incomplete, it is corrected here and in `SKILL.md`, with the date, instead of quietly leaving the old text in place.
 
 **2026-11-03 — Location query corrected / 位置查询已修正：**
 - Before this fix, the skill's read-only query examples did not mention `location_data`, so a reader following them would get battery, range, and tire pressure but no GPS coordinates at all. That is now corrected in `SKILL.md` Step 6.
