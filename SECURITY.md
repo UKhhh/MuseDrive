@@ -58,5 +58,5 @@ This project is provided "as is", without warranty of any kind. The author is no
 
 ---
 
-**Installation gate: an assistant installing MuseDrive for a user must present this reminder and the disclaimer in full, in the user's language, and must not start any installation step until the user has explicitly confirmed they have read it, understand it, and accept it. A vague reply, a skipped step, or an implied consent does not count.**
-**安装门：给用户安装 MuseDrive 的助手，必须先用用户语言完整告知本提醒和免责条款，并且在用户明确确认“已读、理解、接受”之前，不得开始任何安装步骤。含糊的回复、跳过的步骤、默认同意，都不算确认。**
+**Installation gate: an assistant installing MuseDrive for a user must present this reminder and the disclaimer in full, in the user's language, and must not start any installation step until the user has explicitly confirmed they have read it, understand it, and accept it. Presentation and confirmation must be two separate steps, not done in the same message or turn. A vague reply, a skipped step, or an implied consent does not count.**
+**安装门：给用户安装 MuseDrive 的助手，必须先用用户语言完整告知本提醒和免责条款，并且在用户明确确认“已读、理解、接受”之前，不得开始任何安装步骤。告知和确认必须是两步，不能在同一条消息、同一轮里一边告知一边就开始安装。含糊的回复、跳过的步骤、默认同意，都不算确认。**

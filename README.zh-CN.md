@@ -11,10 +11,10 @@
 
 > **来源备注：特斯拉官方 Fleet 项目说明。**
 
-- **支持车型：Tesla Model S / 3 / X / Y。** 只列中国在售车型，没在中国发布的车不写。S / X 要求 2018 年中以后，更早的只有换过 MCU2 才能用。本项目里真正端到端测过的只有 Model 3，其他车型是官方支持、项目未测，必须在自己车上一步步验证。
+- **支持车型：Tesla Model S / 3 / X / Y。**S / X 要求 2018 年中以后，更早的只有换过 MCU2 才能用。本项目里真正端到端测过的只有 Model 3，其他车型是官方支持、项目未测，必须在自己车上一步步验证。
 - **固件 / 账号：** 必须走 Vehicle Command Protocol，固件 2023.38+ 拿位置要显式请求 `location_data`。必须是车主账号，共享账号 `hide_private` 为 `true` 时不给位置。
-- **地区——默认中国区，国外用户看这里：** 本项目按中国区写，国外用的时候，把全步骤里的中国区地址换成全球区地址：开发者门户 `developer.tesla.com`（不是 `.cn`），授权 / token 地址 `auth.tesla.com`，Fleet API 地址 `fleet-api.prd.na.vn.cloud.tesla.com`（不是 `fleet-api.prd.cn.vn.cloud.tesla.cn`），token 的 audience 跟 Fleet API 地址保持一致。不要把中国区和全球区地址混在一个配置里，换完要重新验证伙伴注册、OAuth、配对。
-- **别的 AI 能不能装：** 原则上可以，方法是通用 Markdown + curl、Go、`tesla-control`、本地浏览器 OAuth，能读完整技能、跑终端、用 600 权限存密钥、每步验证的 AI 都能照着做，但要重新走第 -1 步安全门。Muse 的定时、记忆、浏览器不会自动跟着走，token / 密钥不要在聊天里从一个 AI 复制到另一个 AI，默认给新 AI 重新授权。
+- **地区（国外用户）：** 本项目按中国区写，国外用的时候，把全步骤里的中国区地址换成全球区地址：开发者门户 `developer.tesla.com`（不是 `.cn`），授权 / token 地址 `auth.tesla.com`，Fleet API 地址 `fleet-api.prd.na.vn.cloud.tesla.com`（不是 `fleet-api.prd.cn.vn.cloud.tesla.cn`），token 的 audience 跟 Fleet API 地址保持一致。不要把中国区和全球区地址混在一个配置里，换完要重新验证伙伴注册、OAuth、配对。
+- **其他 AI 支持：** 原则上可以，方法是通用 Markdown + curl、Go、`tesla-control`、本地浏览器 OAuth，能读完整技能、跑终端、用 600 权限存密钥、每步验证的 AI 都能照着做，但要重新走第 -1 步安全门。Muse 的定时、记忆、浏览器不会自动跟着走，token / 密钥不要在聊天里从一个 AI 复制到另一个 AI，默认给新 AI 重新授权。
 
 
 ## 免责声明（使用前必读）
@@ -54,7 +54,7 @@
 
 这个项目是有人在维护的。
 
-**2026-11-04 — 支持范围简化并移到最前面、国外用户地址映射已加、skill 改名已取消：** 支持范围已简写为 Tesla Model S / 3 / X / Y，只列中国在售车型，移到 README 最前面并注明来源为特斯拉官方 Fleet 项目说明；国外用户给出中国区到全球区的地址映射。之前 skill 改名的想法取消，仍按原来来，`SKILL.md` 不变。
+**2026-11-04 — 支持范围、国外用户地址映射：** 支持范围为 Tesla Model S / 3 / X / Y，注明来源为特斯拉官方 Fleet 项目说明；国外用户给出中国区到全球区的地址映射。
 
 **2026-11-04 — 新增支持范围：** 已按特斯拉官方 Fleet API 文档新增支持范围，见上面的支持范围一节和 `SKILL.md`：车型、固件、账号、地区，以及能否装到别的 AI 上。实测过的只有 Model 3，其他车型是官方支持、项目未测。
 

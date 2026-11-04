@@ -17,13 +17,13 @@ Before Step 0, before any developer-account, app, key, domain, OAuth, token, or 
 
 1. Present the full security reminder in `SECURITY.md` and the disclaimer in the README, in the user's own language, in full — not a one-line summary, not a link alone.
 2. Ask the user to explicitly confirm, in their own words, that they have read it, understand it, and accept it, including: this is an unofficial personal project not affiliated with Tesla; it is for their own vehicle and personal use only; a leaked private key plus token can allow control of the car within the approved scopes; they will keep all secrets private and use their own developer app, domain, and key pair; and they accept the project as-is with no warranty.
-3. Wait for that explicit confirmation. If the user declines, answers vaguely, asks to skip it, or gives only implied consent, STOP. Do not start Step 0, do not create an app, do not generate a key, do not ask for a login or authorization code, and do not proceed on the assumption that they will confirm later.
+3. Wait for that explicit confirmation. Presentation and confirmation must be two separate steps: the assistant must not present the reminder and start installation in the same message or the same turn, and must not treat its own presentation as confirmation. The confirmation must be the user's own words, for example "已读、理解、接受" or an equivalent explicit statement in the user's language covering read, understood, and accepted. If the user declines, answers vaguely, asks to skip it, or gives only implied consent, STOP. Do not start Step 0, do not create an app, do not generate a key, do not ask for a login or authorization code, and do not proceed on the assumption that they will confirm later.
 
 Only after an explicit confirmation may the assistant move to the preparation checklist and Step 0. Record that confirmation happened in the conversation; do not record the user's secrets, and do not treat a previous session's confirmation as confirmation for a new user or a new vehicle.
 
 ## Support scope — supported vehicles and other AIs
 
-Source: Tesla's official Fleet API / Vehicle Command project documentation. Only models sold in China are listed.
+Source: Tesla's official Fleet API / Vehicle Command project documentation.
 
 - Supported vehicles: Tesla Model S / 3 / X / Y. Model S / X from mid-2018 onwards; older S / X only with an MCU2 retrofit. Only a Model 3 has been tested end-to-end in this project; other models are officially supported but project-untested — verify every step on the user's own car.
 - Firmware / account: Vehicle Command Protocol required; firmware 2023.38+ requires explicitly requesting `location_data` for location. Owner account only; a share account with `hide_private` set to `true` receives no location.

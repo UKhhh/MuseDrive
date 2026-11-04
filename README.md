@@ -12,9 +12,9 @@ A working method for connecting your own Tesla to an AI assistant through Tesla'
 > **Source: Tesla's official Fleet API / Vehicle Command project documentation.**
 > **来源备注：特斯拉官方 Fleet 项目说明。**
 
-- **Supported vehicles: Tesla Model S / 3 / X / Y.** Only models sold in China are listed here; models not sold in China are not listed. Model S / X from mid-2018 onwards are supported; older S / X only with an MCU2 retrofit. Only a Model 3 has been tested end-to-end in this project — other models are officially supported but project-untested, so verify every step on your own car.
+- **Supported vehicles: Tesla Model S / 3 / X / Y.** Model S / X from mid-2018 onwards are supported; older S / X only with an MCU2 retrofit. Only a Model 3 has been tested end-to-end in this project — other models are officially supported but project-untested, so verify every step on your own car.
 - **Firmware / account:** Vehicle Command Protocol is required (firmware 2023.38+ requires explicitly requesting `location_data` for location). Tesla owner account only; a share account with `hide_private` set to `true` receives no location.
-- **Region — China by default, other regions read this:** this project is written for the China region. Outside China, replace the China hosts with the global hosts throughout the steps — developer portal `developer.tesla.com` (not `.cn`), authorization/token host `auth.tesla.com`, Fleet API host `fleet-api.prd.na.vn.cloud.tesla.com` (not `fleet-api.prd.cn.vn.cloud.tesla.cn`), and the same token audience as the Fleet API host. Do not mix China and global hosts in one setup, and re-verify partner registration, OAuth, and pairing after switching hosts.
+- **Region:** this project is written for the China region. Outside China, replace the China hosts with the global hosts throughout the steps — developer portal `developer.tesla.com` (not `.cn`), authorization/token host `auth.tesla.com`, Fleet API host `fleet-api.prd.na.vn.cloud.tesla.com` (not `fleet-api.prd.cn.vn.cloud.tesla.cn`), and the same token audience as the Fleet API host. Do not mix China and global hosts in one setup, and re-verify partner registration, OAuth, and pairing after switching hosts.
 - **Other AIs:** yes, in principle — the method is plain markdown plus curl, Go, `tesla-control`, and a local browser for OAuth, so any AI that can read the whole skill, run terminal commands, store secrets in 600-permission files, and verify each step can follow it, after re-running the Step -1 safety gate. Muse-specific scheduling, memory, and browser do not transfer automatically, and tokens/keys must not be copied across AIs in chat — re-authorize for the new AI by default.
 
 ## Disclaimer — please read before use / 免责声明（使用前必读）
@@ -54,8 +54,8 @@ In short, and this summary does not replace the full reminder:
 
 This project is actively maintained.
 
-**2026-11-04 — Support scope simplified and moved to the front, foreign-user hosts added, skill rename dropped:** support scope is now abbreviated (Tesla Model S / 3 / X / Y only, no models not sold in China), placed at the very front of the README, with a source note to Tesla's official Fleet project documentation; foreign users get a China-to-global host mapping (`.cn` to `.com` / global Fleet API host). The earlier skill rename idea is dropped — naming stays as originally published, `SKILL.md` unchanged.
-- 支持范围已简化并移到最前面，国外用户地址映射已加，skill 改名已取消，仍按原来来。
+**2026-11-04 — Support scope and foreign-user hosts:** support scope (Tesla Model S / 3 / X / Y), with a source note to Tesla's official Fleet project documentation; foreign users get a China-to-global host mapping (`.cn` to `.com` / global Fleet API host).
+- 支持范围、国外用户地址映射。
 
 **2026-11-04 — Support scope added / 新增支持范围：** supported vehicles and other-AI installability, per Tesla's official Fleet API documentation, in the new Support scope section above and in `SKILL.md`. Only Model 3 is project-tested; other models are officially supported but project-untested.
 - 支持范围已按特斯拉官方 Fleet API 文档新增，见上面的支持范围一节和 `SKILL.md`：车型、固件、账号、地区，以及能否装到别的 AI 上。实测过的只有 Model 3，其他车型是官方支持、项目未测。
