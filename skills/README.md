@@ -11,12 +11,12 @@ and signed commands without any skill in this folder.
 
 ## Skills inventory / 技能清单
 
-As of 2026-11-03, this library contains one skill only:
+As of 2026-11-06, this library contains one skill only:
 
-截至 2026-11-03，本技能库仅收录 1 个技能：
+截至 2026-11-06，本技能库仅收录 1 个技能：
 
-- **2026-11-02 — Daily Morning Briefing / 每日早报** — `skills/daily-morning-briefing/SKILL.md` (English) and `skills/daily-morning-briefing/SKILL.zh-CN.md` (Chinese). One short, warm, first-person morning message with today's weather, read-only vehicle status, last night's sleep and yesterday's activity if synced, and personalized reminders, plus at most one urgent news item. The vehicle part requires your own MuseDrive setup; without a car, the same skill can run weather plus health only.
-- **2026-11-02 — 每日早报 / Daily Morning Briefing** — `skills/daily-morning-briefing/SKILL.md`（英文版）、`skills/daily-morning-briefing/SKILL.zh-CN.md`（中文版）。一份短的、温暖的、第一人称的早报，包含当天天气、只读的车辆状态、昨晚睡眠和昨天活动（如果已同步）、个性化提醒，紧急新闻最多一条。车辆部分需要你自己的 MuseDrive 搭建；没有车的话，同一个技能也可以只跑天气加健康。
+- **2026-11-06 — Daily Morning Briefing / 每日早报** — `skills/daily-morning-briefing/SKILL.md` (English) and `skills/daily-morning-briefing/SKILL.zh-CN.md` (Chinese). One short, warm, first-person morning message with today's weather, read-only vehicle status, last night's sleep and yesterday's activity if synced, and personalized reminders, plus at most one urgent news item. The vehicle part requires your own MuseDrive setup; without a car, the same skill can run weather plus health only. The 2026-11-06 update adds a daily freshness mechanism, graded comparisons, data reliability checks, a strict vehicle-wake boundary, and verified news sources.
+- **2026-11-06 — 每日早报 / Daily Morning Briefing** — `skills/daily-morning-briefing/SKILL.md`（英文版）、`skills/daily-morning-briefing/SKILL.zh-CN.md`（中文版）。一份短的、温暖的、第一人称的早报，包含当天天气、只读的车辆状态、昨晚睡眠和昨天活动（如果已同步）、个性化提醒，紧急新闻最多一条。车辆部分需要你自己的 MuseDrive 搭建；没有车的话，同一个技能也可以只跑天气加健康。2026-11-06 的更新增加了每日新鲜感机制、分级对比、数据可靠性检查、严格的车辆唤醒边界和新闻来源核验。
 
 ## How to use / 怎么用
 
@@ -49,11 +49,20 @@ As of 2026-11-03, this library contains one skill only:
   mentioned only when its trigger is met, the briefing gives
   conclusions only (no internal thinking process), and wording-only
   changes edit the previous draft instead of re-running all data
-  queries.
+  queries. The 2026-11-06 update adds a daily freshness mechanism
+  (one main observation point plus at most one auxiliary point, with
+  a 7-day record), graded A/B/C comparisons, data source and
+  freshness checks, a strict wake boundary (explicit authorization
+  only, at most once per briefing, read-only), and verified news
+  sources.
 - 作用：每天早上用第一人称、好朋友的语气发一条短短的早报，
   包含天气、车辆状态、健康和顺口提醒，特别重要紧急的新闻才
   附一条。车辆只读不控，保养只在触发时说一句，早报只给结论、
-  不写思考过程，改措辞就在原稿上改、不重新跑数据。
+  不写思考过程，改措辞就在原稿上改、不重新跑数据。2026-11-06
+  的更新增加了每日新鲜感机制（每天 1 个主观察点、最多 1 个
+  辅助观察点，配 7 天记录）、A/B/C 分级对比、数据来源与新鲜
+  度检查、严格的唤醒边界（明确授权才唤醒、每次最多一次、
+  只读）和新闻来源核验。
 
 ## Contributing a new skill / 怎么收录新的技能
 
